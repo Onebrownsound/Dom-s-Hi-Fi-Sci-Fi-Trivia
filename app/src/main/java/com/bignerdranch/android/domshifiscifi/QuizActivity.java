@@ -1,5 +1,6 @@
 package com.bignerdranch.android.domshifiscifi;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -19,6 +20,9 @@ public class QuizActivity extends ActionBarActivity {
     private Button mNextButton;
     private TextView mQuestionTextView;
     private TextView mUserScore;
+    private MediaPlayer correctSound;
+    private MediaPlayer incorrectSound;
+    private int mCurrentIndex = 0;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse("Electrons are larger than molecules.",false),
@@ -43,8 +47,8 @@ public class QuizActivity extends ActionBarActivity {
             new TrueFalse("The human skeleton is made up of less than 100 bones.",false)
 
     };
-    //set current question index to 0
-    private int mCurrentIndex = 0;
+
+
 
     //helper function to update questions
     private void updateQuestionNext(){
@@ -68,9 +72,18 @@ public class QuizActivity extends ActionBarActivity {
         userScore+=1;
         mUserScore.setText(Integer.toString(userScore));
         Toast.makeText(QuizActivity.this,R.string.correct_response,Toast.LENGTH_SHORT).show();
+        correctSound = MediaPlayer.create(this,R.raw.correct);
+        correctSound.start();
         updateQuestionNext();
     }
-
+    //handles logic in case user answer is incorrect
+    private void wrongAnswer()
+    {
+        Toast.makeText(QuizActivity.this,R.string.incorrect_response,Toast.LENGTH_SHORT).show();
+        incorrectSound=MediaPlayer.create(this,R.raw.incorrect);
+        incorrectSound.start();
+        updateQuestionNext();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +102,8 @@ public class QuizActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if(IsAnswerCorrect(true))
                     gainPoints();
-                else
-                {
-                    Toast.makeText(QuizActivity.this,R.string.incorrect_response,Toast.LENGTH_SHORT).show();
-                    updateQuestionNext();
-                }
+                else wrongAnswer();
+
             }
         });
 
@@ -108,11 +118,7 @@ public class QuizActivity extends ActionBarActivity {
 
                     gainPoints();
                 }
-                else
-                {
-                    Toast.makeText(QuizActivity.this,R.string.incorrect_response,Toast.LENGTH_SHORT).show();
-                    updateQuestionNext();
-                }
+                else wrongAnswer();
 
             }
         });
