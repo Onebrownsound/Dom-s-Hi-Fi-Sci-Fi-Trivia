@@ -15,10 +15,10 @@ import android.widget.Toast;
 public class QuizActivity extends ActionBarActivity {
     private int userScore=0;
     private Boolean UserAnswer;
-    private Button mPrevButton;
+    //private Button mPrevButton;
     private Button mTrueButton;
     private Button mFalseButton;
-    private Button mNextButton;
+    //private Button mNextButton;
     private TextView mQuestionTextView;
     private TextView mUserScore;
     private MediaPlayer correctSound;
@@ -52,11 +52,22 @@ public class QuizActivity extends ActionBarActivity {
 
 
 
+    //updates picture that represents science knowledge
+    private void drawSciencePicture()
+    {
+        if (userScore<5) sciencePicture.setImageResource(R.drawable.stimpy);
+        else if (5<=userScore && userScore<13) sciencePicture.setImageResource(R.drawable.stimpy);
+        else if (14<=userScore && userScore<19) sciencePicture.setImageResource(R.drawable.george);
+        else sciencePicture.setImageResource(R.drawable.einstein);
+
+    }
+
     //helper function to update questions
     private void updateQuestionNext(){
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
         String question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question); }
+
     //helper function to cycle through questions
     private void updateQuestionPrevious(){
         mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
@@ -76,6 +87,7 @@ public class QuizActivity extends ActionBarActivity {
         Toast.makeText(QuizActivity.this,R.string.correct_response,Toast.LENGTH_SHORT).show();
         correctSound = MediaPlayer.create(this,R.raw.correct);
         correctSound.start();
+        drawSciencePicture();
         updateQuestionNext();
     }
     //handles logic in case user answer is incorrect
@@ -84,6 +96,7 @@ public class QuizActivity extends ActionBarActivity {
         Toast.makeText(QuizActivity.this,R.string.incorrect_response,Toast.LENGTH_SHORT).show();
         incorrectSound=MediaPlayer.create(this,R.raw.incorrect);
         incorrectSound.start();
+        drawSciencePicture();
         updateQuestionNext();
     }
 
@@ -92,7 +105,8 @@ public class QuizActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         sciencePicture=(ImageView)findViewById(R.id.sciencePicture);
-        sciencePicture.setImageResource(R.drawable.stimpy);
+        drawSciencePicture();
+
         mUserScore=(TextView)findViewById(R.id.playerScore);
         mUserScore.setText(Integer.toString(userScore));
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);

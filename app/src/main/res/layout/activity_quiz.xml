@@ -57,6 +57,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/sciencePicture"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/science_picture_description"
+        android:maxHeight="400dp"
+        android:maxWidth="400dp"
+        android:adjustViewBounds="false"/>
 
 </LinearLayout>
