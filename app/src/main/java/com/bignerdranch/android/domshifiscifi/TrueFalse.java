@@ -1,4 +1,4 @@
-package com.bignerdranch.android.geoquiz;
+package com.bignerdranch.android.domshifiscifi;
 
 /**
  * Created by dom on 4/20/2015.

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.geoquiz;
+package com.bignerdranch.android.domshifiscifi;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -1,4 +1,4 @@
-package com.bignerdranch.android.geoquiz;
+package com.bignerdranch.android.domshifiscifi;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
