@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ public class QuizActivity extends ActionBarActivity {
     private MediaPlayer correctSound;
     private MediaPlayer incorrectSound;
     private int mCurrentIndex = 0;
+    private ImageView sciencePicture;
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse("Electrons are larger than molecules.",false),
@@ -89,6 +91,8 @@ public class QuizActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        sciencePicture=(ImageView)findViewById(R.id.sciencePicture);
+        sciencePicture.setImageResource(R.drawable.stimpy);
         mUserScore=(TextView)findViewById(R.id.playerScore);
         mUserScore.setText(Integer.toString(userScore));
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);
@@ -122,24 +126,29 @@ public class QuizActivity extends ActionBarActivity {
 
             }
         });
+        //commented out below is the next and previous buttons. No use for them currently.
+        /*
+
         mNextButton=(Button)findViewById(R.id.next_button);
         mNextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
 
-                updateQuestionNext();
+        updateQuestionNext();
 
 
-            }
+        }
         });
         mPrevButton=(Button)findViewById(R.id.prev_button);
         mPrevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        @Override
+        public void onClick(View v) {
 
-                updateQuestionPrevious();
-            }
+        updateQuestionPrevious();
+        }
         });
+
+        */
 
 
     }
