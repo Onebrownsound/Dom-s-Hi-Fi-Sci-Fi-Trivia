@@ -12,5 +12,6 @@
     <string name="trivia_title">Choose Wisely!</string>
     <string name="playerScore">0</string>
     <string name="science_picture_description">displays science picture which represents users knowledge</string>
+    <string name="GameOver">You have gone through the entire. Question Bank Please Exit the game now!</string>
 
 </resources>

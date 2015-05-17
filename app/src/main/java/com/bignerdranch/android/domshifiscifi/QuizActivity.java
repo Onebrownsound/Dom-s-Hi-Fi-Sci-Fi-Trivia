@@ -3,6 +3,7 @@ package com.bignerdranch.android.domshifiscifi;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 
 
 public class QuizActivity extends ActionBarActivity {
+    private int questionTotal=1;
+    private static final String TAG="QuizActivity";
     private int userScore=0;
     private Boolean UserAnswer;
     //private Button mPrevButton;
@@ -25,6 +28,8 @@ public class QuizActivity extends ActionBarActivity {
     private MediaPlayer incorrectSound;
     private int mCurrentIndex = 0;
     private ImageView sciencePicture;
+    private static final String KEY_INDEX="index";
+    private static final String USERSCORE_INDEX="userscore";
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse("Electrons are larger than molecules.",false),
@@ -52,36 +57,34 @@ public class QuizActivity extends ActionBarActivity {
 
 
 
+
+    private void increaseQuestionCount(){
+        questionTotal+=1;
+    }
+
     //updates picture that represents science knowledge
     private void drawSciencePicture()
     {
-        if (userScore<5) sciencePicture.setImageResource(R.drawable.stimpy);
-        else if (5<=userScore && userScore<13) sciencePicture.setImageResource(R.drawable.stimpy);
-        else if (14<=userScore && userScore<19) sciencePicture.setImageResource(R.drawable.george);
+        if (userScore<7) sciencePicture.setImageResource(R.drawable.stimpy);
+        else if (7<=userScore && userScore<13) sciencePicture.setImageResource(R.drawable.george);
         else sciencePicture.setImageResource(R.drawable.einstein);
 
     }
 
-    //helper function to update questions
+    //helper function to cycle through next question
     private void updateQuestionNext(){
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
         String question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question); }
 
-    //helper function to cycle through questions
-    private void updateQuestionPrevious(){
-        mCurrentIndex = (mCurrentIndex - 1) % mQuestionBank.length;
-        String question = mQuestionBank[mCurrentIndex].getQuestion();
-        mQuestionTextView.setText(question);
 
-    }
     //handles logic for comparing user response to the actual answer
     private Boolean IsAnswerCorrect(Boolean UserAnswer){
         Boolean CorrectAnswer=mQuestionBank[mCurrentIndex].isTrueQuestion();
         return UserAnswer == CorrectAnswer;
     }
     //handles logic for updating player score in the event  their response is correct
-    private void gainPoints(){
+    private void correctAnswer(){
         userScore+=1;
         mUserScore.setText(Integer.toString(userScore));
         Toast.makeText(QuizActivity.this,R.string.correct_response,Toast.LENGTH_SHORT).show();
@@ -103,9 +106,14 @@ public class QuizActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"OnCreate Called");
         setContentView(R.layout.activity_quiz);
         sciencePicture=(ImageView)findViewById(R.id.sciencePicture);
         drawSciencePicture();
+        if (savedInstanceState != null) {
+            mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
+            userScore=savedInstanceState.getInt(USERSCORE_INDEX,0);
+        }
 
         mUserScore=(TextView)findViewById(R.id.playerScore);
         mUserScore.setText(Integer.toString(userScore));
@@ -113,14 +121,18 @@ public class QuizActivity extends ActionBarActivity {
         String question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question);
 
+
+
+
         //user answers question with True
         mTrueButton=(Button)findViewById(R.id.true_button);
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(IsAnswerCorrect(true))
-                    gainPoints();
+                    correctAnswer();
                 else wrongAnswer();
+                increaseQuestionCount();
 
             }
         });
@@ -134,37 +146,52 @@ public class QuizActivity extends ActionBarActivity {
                 if(IsAnswerCorrect(false))
                 {
 
-                    gainPoints();
+                    correctAnswer();
                 }
                 else wrongAnswer();
+                increaseQuestionCount();
+
+
 
             }
         });
-        //commented out below is the next and previous buttons. No use for them currently.
-        /*
-
-        mNextButton=(Button)findViewById(R.id.next_button);
-        mNextButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        updateQuestionNext();
 
 
-        }
-        });
-        mPrevButton=(Button)findViewById(R.id.prev_button);
-        mPrevButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        updateQuestionPrevious();
-        }
-        });
-
-        */
 
 
+
+    }
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState){
+        super.onSaveInstanceState(savedInstanceState);
+        Log.i(TAG,"onSaveInstanceState");
+        savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
+        savedInstanceState.putInt(USERSCORE_INDEX,userScore);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.d(TAG, "onStart() called");
+    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause() called");
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume() called");
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop() called");
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy() called");
     }
 
 
