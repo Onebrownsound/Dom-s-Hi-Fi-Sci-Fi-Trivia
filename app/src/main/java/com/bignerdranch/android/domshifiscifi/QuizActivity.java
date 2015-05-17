@@ -73,6 +73,7 @@ public class QuizActivity extends ActionBarActivity {
 
     //helper function to cycle through next question
     private void updateQuestionNext(){
+
         mCurrentIndex = (mCurrentIndex + 1) % mQuestionBank.length;
         String question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question); }
@@ -110,6 +111,13 @@ public class QuizActivity extends ActionBarActivity {
         setContentView(R.layout.activity_quiz);
         sciencePicture=(ImageView)findViewById(R.id.sciencePicture);
         drawSciencePicture();
+
+        //Next line allows for saving of important variables
+        //So that in the event the screen orientation changes
+        //The app will "remember" what they were when a new onCreate is called
+        // savedInstanceState is of type Bundle
+        //Which is essentially a hash table, which allows for easy lookup
+        //The second parameter in the call represents what the default value should be in case of a bug
         if (savedInstanceState != null) {
             mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0);
             userScore=savedInstanceState.getInt(USERSCORE_INDEX,0);
@@ -129,6 +137,7 @@ public class QuizActivity extends ActionBarActivity {
         mTrueButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(IsAnswerCorrect(true))
                     correctAnswer();
                 else wrongAnswer();
@@ -168,6 +177,7 @@ public class QuizActivity extends ActionBarActivity {
         savedInstanceState.putInt(KEY_INDEX,mCurrentIndex);
         savedInstanceState.putInt(USERSCORE_INDEX,userScore);
     }
+
     @Override
     public void onStart() {
         super.onStart();
