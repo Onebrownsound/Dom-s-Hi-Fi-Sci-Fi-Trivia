@@ -1,5 +1,6 @@
 package com.bignerdranch.android.domshifiscifi;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -21,11 +22,13 @@ public class QuizActivity extends ActionBarActivity {
     //private Button mPrevButton;
     private Button mTrueButton;
     private Button mFalseButton;
+    private Button mCheatButton;
     //private Button mNextButton;
     private TextView mQuestionTextView;
     private TextView mUserScore;
     private MediaPlayer correctSound;
     private MediaPlayer incorrectSound;
+    private MediaPlayer cheaterSound;
     private int mCurrentIndex = 0;
     private ImageView sciencePicture;
     private static final String KEY_INDEX="index";
@@ -104,6 +107,12 @@ public class QuizActivity extends ActionBarActivity {
         updateQuestionNext();
     }
 
+    private void playCheaterSound(){
+
+        cheaterSound=MediaPlayer.create(this,R.raw.badboy);
+        cheaterSound.start();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,6 +137,20 @@ public class QuizActivity extends ActionBarActivity {
         mQuestionTextView=(TextView)findViewById(R.id.question_text_view);
         String question = mQuestionBank[mCurrentIndex].getQuestion();
         mQuestionTextView.setText(question);
+
+        mCheatButton=(Button)findViewById(R.id.cheat_button);
+        mCheatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                playCheaterSound();
+                Intent i=new Intent(QuizActivity.this,CheatActivity.class);
+                startActivity(i);
+                updateQuestionNext();
+
+            }
+        });
 
 
 

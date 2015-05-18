@@ -13,5 +13,9 @@
     <string name="playerScore">0</string>
     <string name="science_picture_description">displays science picture which represents users knowledge</string>
     <string name="GameOver">You have gone through the entire. Question Bank Please Exit the game now!</string>
+    <string name="cheat_button">Cheat!</string>
+    <string name="warning_text">Are you sure you want to do this?</string>
+    <string name="show_answer_button">Show Answer</string>
+    <string name="judgment_toast">Cheating is wrong.</string>
 
 </resources>

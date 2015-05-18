@@ -4,7 +4,8 @@
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="1"
-    android:background="#ff62c5ff">
+    android:background="#ff62c5ff"
+    android:id="@+id/R">
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,20 +30,29 @@
 
         <Button
             android:id="@+id/true_button"
-            android:layout_width="wrap_content"
+            android:layout_width="105dp"
             android:layout_height="wrap_content"
             android:text="@string/true_button"
             android:background="#ff2f1eff"/>
 
         <Button
             android:id="@+id/false_button"
-            android:layout_width="wrap_content"
+            android:layout_width="103dp"
             android:layout_height="wrap_content"
             android:text="@string/false_button"
             android:background="#ffff1728"/>
 
 
     </LinearLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:text="@string/cheat_button"
+        android:id="@+id/cheat_button"
+        android:clickable="false"
+        android:background="#ff37ff5c"/>
 
     <TextView
         android:layout_width="wrap_content"
