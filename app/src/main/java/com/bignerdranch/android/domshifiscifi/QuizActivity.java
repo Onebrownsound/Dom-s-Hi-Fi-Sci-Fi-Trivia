@@ -33,6 +33,7 @@ public class QuizActivity extends ActionBarActivity {
     private ImageView sciencePicture;
     private static final String KEY_INDEX="index";
     private static final String USERSCORE_INDEX="userscore";
+    private static final String QUESTION_ANSWER="QUESTION_ANSWER";
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse("Electrons are larger than molecules.",false),
@@ -146,7 +147,9 @@ public class QuizActivity extends ActionBarActivity {
 
                 playCheaterSound();
                 Intent i=new Intent(QuizActivity.this,CheatActivity.class);
-                startActivity(i);
+                boolean answer=mQuestionBank[mCurrentIndex].isTrueQuestion();
+                i.putExtra(QUESTION_ANSWER,answer);//really shouldn't use a literal string as key in this key value pair
+                startActivityForResult(i,0);
                 updateQuestionNext();
 
             }
