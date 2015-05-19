@@ -18,12 +18,10 @@ public class QuizActivity extends ActionBarActivity {
     private int questionTotal=1;
     private static final String TAG="QuizActivity";
     private int userScore=0;
-    private Boolean UserAnswer;
-    //private Button mPrevButton;
+    private Boolean mHasUserCheated;
     private Button mTrueButton;
     private Button mFalseButton;
     private Button mCheatButton;
-    //private Button mNextButton;
     private TextView mQuestionTextView;
     private TextView mUserScore;
     private MediaPlayer correctSound;
@@ -33,7 +31,8 @@ public class QuizActivity extends ActionBarActivity {
     private ImageView sciencePicture;
     private static final String KEY_INDEX="index";
     private static final String USERSCORE_INDEX="userscore";
-    private static final String QUESTION_ANSWER="QUESTION_ANSWER";
+    public static final String QUESTION_ANSWER="QUESTION_ANSWER";
+    public static final String QUESTION_TEXT="QUESTION_TEXT";
 
     private TrueFalse[] mQuestionBank = new TrueFalse[] {
             new TrueFalse("Electrons are larger than molecules.",false),
@@ -146,11 +145,17 @@ public class QuizActivity extends ActionBarActivity {
 
 
                 playCheaterSound();
+                //When creating an intent in this case the parameters represent
+                //(Where are we?,Where are we going?)
                 Intent i=new Intent(QuizActivity.this,CheatActivity.class);
                 boolean answer=mQuestionBank[mCurrentIndex].isTrueQuestion();
-                i.putExtra(QUESTION_ANSWER,answer);//really shouldn't use a literal string as key in this key value pair
-                startActivityForResult(i,0);
-                updateQuestionNext();
+                i.putExtra(CheatActivity.QUESTION_ANSWER,answer);//adds the current questions answer to the intent
+                i.putExtra(QUESTION_TEXT,mQuestionBank[mCurrentIndex].getQuestion());//adds the current question to the intent
+                startActivityForResult(i,0); //execute the intent and "travel" to CheatActivity
+
+
+
+
 
             }
         });
@@ -195,6 +200,14 @@ public class QuizActivity extends ActionBarActivity {
 
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            return;
+        }
+        mHasUserCheated = data.getBooleanExtra(CheatActivity.EXTRA_ANSWER_SHOWN, false);
     }
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState){

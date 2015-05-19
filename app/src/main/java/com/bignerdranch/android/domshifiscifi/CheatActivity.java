@@ -13,9 +13,11 @@ import android.widget.TextView;
 public class CheatActivity extends ActionBarActivity {
     private boolean mAnswerIsTrue;
     private Button showAnswerButton;
-    private TextView answerTextView;
-    private static final String QUESTION_ANSWER="QUESTION_ANSWER";
+    private String mQuestionText;
+    public static final String QUESTION_ANSWER="QUESTION_ANSWER";
     public static final String EXTRA_ANSWER_SHOWN ="EXTRA_ANSWER_SHOWN";
+    private TextView mQuestionTextView;
+    private TextView mQuestionAnswerTextView;
 
 
     private void setAnswerShownResult(boolean isAnswerShown) {
@@ -24,15 +26,16 @@ public class CheatActivity extends ActionBarActivity {
         setResult(RESULT_OK, data);
     }
 
-    private void displayCorrectAnswer(){
-        if (mAnswerIsTrue){
-            answerTextView.setText("True");
-
-        else
-            answerTextView.setText("False");
-
-
+    //function that gets executed once show answer is pressed
+    //sets the appropriate text view's text
+    private void displayCorrectAnswer() {
+        if (mAnswerIsTrue) {
+            mQuestionAnswerTextView.setText("True");
+        } else {
+            mQuestionAnswerTextView.setText("False");
+             }
     }
+
 
 
     @Override
@@ -40,18 +43,27 @@ public class CheatActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cheat);
 
+        //init the two TextViews
+        mQuestionTextView=(TextView)findViewById(R.id.mQuestionTextView);
+        mQuestionAnswerTextView=(TextView)findViewById(R.id.mQuestionAnswerTextView);
 
-        answerTextView=(TextView)findViewById(R.id.answerTextView);
-        mAnswerIsTrue=getIntent().getBooleanExtra(QUESTION_ANSWER,false);
+
+        mAnswerIsTrue=getIntent().getBooleanExtra(QUESTION_ANSWER,false);//stores the answer to the question
+        mQuestionText=getIntent().getStringExtra(QuizActivity.QUESTION_TEXT);//stores the question text
+        mQuestionTextView.setText(mQuestionText);
         showAnswerButton=(Button)findViewById(R.id.showAnswerButton);
+
+
+        //represents the default "state" for the intent's extra regarding was the answer shown or not
+        //aka up until this point the answer has not been shown
         setAnswerShownResult(false);
 
 
         showAnswerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setAnswerShownResult(true);
-            }
+                setAnswerShownResult(true); //once the button is clicked remember that it was
+
                 displayCorrectAnswer();
             }
         });

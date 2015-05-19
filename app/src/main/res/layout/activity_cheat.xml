@@ -14,7 +14,13 @@
         android:textSize="@dimen/abc_text_size_large_material"/>
 
     <TextView
-        android:id="@+id/answerTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/mQuestionTextView"/>
+
+    <TextView
+        android:id="@+id/mQuestionAnswerTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="24dp" />
@@ -24,4 +30,5 @@
         android:layout_height="wrap_content"
         android:text="@string/show_answer_button"
         android:background="#ff26ff2f"/>
+
 </LinearLayout>
